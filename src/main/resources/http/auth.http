@@ -1,0 +1,16 @@
+POST http://localhost:8080/auth/login
+Content-Type: application/json
+
+{
+  "email": "tosha@yandex.com",
+  "password": "toshmat"
+}
+
+###
+POST http://localhost:8080/auth/login
+Content-Type: application/json
+
+{
+  "email": "akobir.abduganiev@ya.ru",
+  "password": "akobir"
+}

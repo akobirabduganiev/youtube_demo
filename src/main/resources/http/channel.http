@@ -1,0 +1,18 @@
+POST http://localhost:8080/channel/
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI4IiwiaWF0IjoxNjUyNDc0ODA0LCJleHAiOjE2NTI0Nzg0MDQsImlzcyI6InlvdXR1YmUiLCJyb2xlIjoiVVNFUiJ9.1lsVOiG6uk5DMg1sIoNapzEEaHXyOCbimJ19QKcBHWA
+
+{
+  "name": "TOPLES",
+  "description": "Juda ham yaxshi kanal obuna bo'lishni unutmang!"
+}
+
+###
+PUT http://localhost:8080/channel/08aeb3de-8dda-4f5c-b5b5-d34d0bbf7db7
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI4IiwiaWF0IjoxNjUyNDc0ODA0LCJleHAiOjE2NTI0Nzg0MDQsImlzcyI6InlvdXR1YmUiLCJyb2xlIjoiVVNFUiJ9.1lsVOiG6uk5DMg1sIoNapzEEaHXyOCbimJ19QKcBHWA
+
+{
+  "name": "TOPLES",
+  "description": "Juda ham yaxshi kanal obuna bo'lishni unutmang!"
+}

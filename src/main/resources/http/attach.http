@@ -1,0 +1,8 @@
+GET http://localhost:8080/attach/adm/list?page=0&size=5
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyIiwiaWF0IjoxNjUyMzM3ODY2LCJleHAiOjE2NTIzNDE0NjYsImlzcyI6InlvdXR1YmUiLCJyb2xlIjoiQURNSU4ifQ.1ZIzi2lmdM7EC_I7B_58_LyK-Iq9fIYSaPghCRPo-f8
+
+###
+DELETE http://localhost:8080/attach/adm/delete/079bc92b-9841-4a42-8892-34970d26852e
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyIiwiaWF0IjoxNjUyMzM3ODY2LCJleHAiOjE2NTIzNDE0NjYsImlzcyI6InlvdXR1YmUiLCJyb2xlIjoiQURNSU4ifQ.1ZIzi2lmdM7EC_I7B_58_LyK-Iq9fIYSaPghCRPo-f8

@@ -1,0 +1,24 @@
+POST http://localhost:8080/profile/adm
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyIiwiaWF0IjoxNjUyMzgyMzY3LCJleHAiOjE2NTIzODU5NjcsImlzcyI6InlvdXR1YmUiLCJyb2xlIjoiQURNSU4ifQ.V4VzHNKQufCopBO51piVzRtgKub2ey0G2GoN-hGuLdE
+
+{
+  "name": "Toshmat",
+  "surname": "Toshmatov",
+  "email": "tosha@yandex.com",
+  "password": "toshmat"
+}
+
+###
+POST http://localhost:8080/profile/image
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI3IiwiaWF0IjoxNjUyMzQwMjQyLCJleHAiOjE2NTIzNDM4NDIsImlzcyI6InlvdXR1YmUiLCJyb2xlIjoiVVNFUiJ9.YBvUQIzErHq8jvtTrWQ1Di6asIwfcUSxNPwB6hxCaIw
+
+{
+  "id": "fcfbb03a-b900-4a3d-ac0d-bc50617d4992",
+  "path": "2022/5/12",
+  "extension": "jpg",
+  "originName": "Untitled-1.jpg",
+  "size": 857459,
+  "createdDate": "2022-05-12T11:57:51.5087266"
+}

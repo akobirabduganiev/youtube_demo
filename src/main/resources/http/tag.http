@@ -1,0 +1,16 @@
+
+POST http://localhost:8080/tag/
+Content-Type: application/json
+
+{
+  "name": "java_dasturlash_tili"
+}
+
+###
+GET http://localhost:8080/tag/list?page=0&size=5
+Content-Type: application/json
+
+###
+DELETE http://localhost:8080/tag/adm/1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyIiwiaWF0IjoxNjUyNDIxMTQ3LCJleHAiOjE2NTI0MjQ3NDcsImlzcyI6InlvdXR1YmUiLCJyb2xlIjoiQURNSU4ifQ.ZD5WintDTmhw3Jh-GJ1S9QfN4rPXnK_Hg0C4a5mLTrc

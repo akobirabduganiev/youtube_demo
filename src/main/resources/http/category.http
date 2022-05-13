@@ -1,0 +1,32 @@
+POST http://localhost:8080/category/adm
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyIiwiaWF0IjoxNjUyMzgyNjAyLCJleHAiOjE2NTIzODYyMDIsImlzcyI6InlvdXR1YmUiLCJyb2xlIjoiQURNSU4ifQ.vRW5vZD_zmku2gx-686hBNUbjUQhUOt_SfQTPoymqao
+
+{
+  "name": "music"
+}
+
+###
+POST http://localhost:8080/category/adm
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyIiwiaWF0IjoxNjUyNDE2ODY2LCJleHAiOjE2NTI0MjA0NjYsImlzcyI6InlvdXR1YmUiLCJyb2xlIjoiQURNSU4ifQ.ioauztbyWQKtGndEXE7gRdqPsFAmdVOZGK9LWRg5Yh4
+
+{
+  "name": "movie"
+}
+
+###
+DELETE http://localhost:8080/category/adm/1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyIiwiaWF0IjoxNjUyMzgyNjAyLCJleHAiOjE2NTIzODYyMDIsImlzcyI6InlvdXR1YmUiLCJyb2xlIjoiQURNSU4ifQ.vRW5vZD_zmku2gx-686hBNUbjUQhUOt_SfQTPoymqao
+
+###
+GET http://localhost:8080/category/adm/music
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyIiwiaWF0IjoxNjUyMzgyNjAyLCJleHAiOjE2NTIzODYyMDIsImlzcyI6InlvdXR1YmUiLCJyb2xlIjoiQURNSU4ifQ.vRW5vZD_zmku2gx-686hBNUbjUQhUOt_SfQTPoymqao
+
+###
+GET http://localhost:8080/category/adm/list?page=0&size=5
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyIiwiaWF0IjoxNjUyNDIxMTQ3LCJleHAiOjE2NTI0MjQ3NDcsImlzcyI6InlvdXR1YmUiLCJyb2xlIjoiQURNSU4ifQ.ZD5WintDTmhw3Jh-GJ1S9QfN4rPXnK_Hg0C4a5mLTrc
+

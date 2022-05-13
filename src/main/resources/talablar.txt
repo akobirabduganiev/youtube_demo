@@ -1,0 +1,111 @@
+*************** Youtube ***************
+1. Profile
+    id,name,surname,email,photo,role,status
+2. Attach
+    id(uuid),origin_name,size,type (extension),path
+3. Category
+    id,name,created_date
+4. Tag
+    id,name,created_date
+5. Channel
+    id,name,photo,description,status (ACTIVE, BLOCK),banner,profile_id,key
+6. Playlist
+    id,channel_id,name,description,status(private,public),order_num
+7. Video
+    id, preview_attach_id,title,category_id,attach_id,created_date,published_date,status(private,public),
+    key, type(video,short),view_count,shared_count,description,channel_id,(like_count,dislike_count)
+8. playlist_video
+    id,playlist_id,video_id,created_id
+9. video_tag
+    id,video_id,tag_id,created_date
+10. Comment
+    id,profile_id,video_id,content,reply_id (like_count,dislike_count)
+11. Subscription
+    id,profile_id,channel_id,created_date,status (active,block),notification_type(All,Personalized,Non)
+12. video_like
+    id,profile_id,video_id,created_date,type(Like,Dislike)
+13. comment_like
+    id,profile_id,comment_id,created_date,type(Like,Dislike)
+14. report
+    id,profile_id,content,entity_id(channel)id,profile_id),type(channel,video)
+
+
+*** Task List ***
+1. Profile (USER role)
+        -- Auth
+	1. Registration (with email verification)
+	2. Authorization
+	     id,name,surname,email,main_photo (url)
+	    -- Profile
+	3. Change password
+	4. Update Email (with email verification)
+	5. Update Profile Detail(name,surname)
+	6. Update Profile Attach (main_photo) (delete old attach)
+	7. Get Profile Detail (id,name,surname,email,main_photo((url)))
+    8. Create Profile (ADMIN)
+        (id,name,surname,email,Role(ADMIN,MODERATOR))
+
+2. Attach
+    1. Create Attach (upload)
+    2. Get Attach By Id (Open)
+    3. Download Attach (Download)
+    4. Attach pagination (ADMIN)
+        id,origen_name,size,url
+    5. Delete Attach (delete from db and system) (ADMIN)
+
+3. Category
+    1. Create Category (ADMIN)
+    2. Update Category (ADMIN)
+    3. Delete Category (ADMIN)
+    5. Category List
+
+4. Tag
+      1. Create Tag
+      2. Update Tag (ADMIN)
+      3. Delete Tag (ADMIN)
+      5. Tag List
+
+5. Channel
+    1. Create Channel (USER)
+    2. Update Channel ( USER and OWNER)
+    3. Update Channel photo ( USER and OWNER)
+    4. Update Channel banner ( USER and OWNER)
+    5. Channel Pagination (ADMIN)
+    6. Change Channel Status (ADMIN,USER and OWNER)
+    7. User Channel List (murojat qilgan userni)
+
+6. Playlist
+    1. Create Playlist (USER)
+    2. Update Playlist(USER and OWNER)
+    3. Change Playlist Status (USER and OWNER)
+    4. Delete Playlist (USER and OWNER, ADMIN)
+    5. Playlist Pagination (ADMIN)
+    6. Playlist List By UserId (ADMIN)
+    7. Get User Playlist (murojat qilgan user ni)
+    8. Get Channel Palay List By ChannelKey
+
+7. Video
+    1. Create Video (USER)
+    2. Update Video Detail (USER and OWNER)
+    3. Change Video Status (USER and OWNER)
+    4. Increase video_view Count by key
+    5. Get Video Pagination by CategoryId
+        VideShortInfo
+    6. Search video by Title
+        VideShortInfo
+    7. Get Video By key (If Status PRIVATE allow only for OWNER or ADMIN)
+       VideFullInfo
+    8. Get Video List Pagination (ADMIN)
+        (VideShortInfo + owner (is,name,surname) + playlist (id,name))
+    9. Get Channel Video List Pagination (created_date desc)
+         VideShortInfo
+
+    VideFullInfo (id,key,title,description,
+                preview_attach(id,url),attach(id,url,duration),
+                category(id,name),tagList(id,name),
+                published_date, channel(id,name,photo(url)),
+                view_count,shared_count,Like(like_count,dislike_count,
+                isUserLiked,IsUserDisliked))
+    VideShortInfo(id,key,title, preview_attach(id,url),
+                   published_date, channel(id,name,photo(url)),
+                   view_count,)
