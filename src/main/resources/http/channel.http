@@ -10,9 +10,19 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI4IiwiaWF0IjoxNjUyNDc0ODA0L
 ###
 PUT http://localhost:8080/channel/08aeb3de-8dda-4f5c-b5b5-d34d0bbf7db7
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI4IiwiaWF0IjoxNjUyNDc0ODA0LCJleHAiOjE2NTI0Nzg0MDQsImlzcyI6InlvdXR1YmUiLCJyb2xlIjoiVVNFUiJ9.1lsVOiG6uk5DMg1sIoNapzEEaHXyOCbimJ19QKcBHWA
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI5IiwiaWF0IjoxNjUyNTUzOTYzLCJleHAiOjE2NTI1NTc1NjMsImlzcyI6InlvdXR1YmUiLCJyb2xlIjoiVVNFUiJ9.YgpEEoo1uzOPPVvzJWw9RRcWG_m542QvgCccHFlWwWs
 
 {
   "name": "TOPLES",
   "description": "Juda ham yaxshi kanal obuna bo'lishni unutmang!"
+}
+
+###
+PUT http://localhost:8080/channel/update-photo
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI4IiwiaWF0IjoxNjUyNTUzODMwLCJleHAiOjE2NTI1NTc0MzAsImlzcyI6InlvdXR1YmUiLCJyb2xlIjoiVVNFUiJ9.6EgQR0-0AKNXQYslTlgz5pfOy1v082DE8owsp5ATIF4
+
+{
+  "photoId" : "83a2b75e-97a5-4dc2-bb2a-5b41070acda9",
+  "channelKey": "08aeb3de-8dda-4f5c-b5b5-d34d0bbf7db7"
 }

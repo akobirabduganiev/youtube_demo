@@ -10,6 +10,18 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyIiwiaWF0IjoxNjUyMzgyMzY3L
 }
 
 ###
+POST http://localhost:8080/profile/adm
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyIiwiaWF0IjoxNjUyNDc2NDIyLCJleHAiOjE2NTI0ODAwMjIsImlzcyI6InlvdXR1YmUiLCJyb2xlIjoiQURNSU4ifQ.VndYs0jV6btSvtByearrnXlgq-zDZvGWGe2LWWw0-Pk
+
+{
+"name": "Ali",
+"surname": "Aliyev",
+"email": "ali@yandex.com",
+"password": "alijon"
+}
+
+###
 POST http://localhost:8080/profile/image
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI3IiwiaWF0IjoxNjUyMzQwMjQyLCJleHAiOjE2NTIzNDM4NDIsImlzcyI6InlvdXR1YmUiLCJyb2xlIjoiVVNFUiJ9.YBvUQIzErHq8jvtTrWQ1Di6asIwfcUSxNPwB6hxCaIw

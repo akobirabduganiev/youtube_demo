@@ -1,5 +1,6 @@
 package com.company.controller;
 
+import com.company.dto.ChangeProfilePhotoDTO;
 import com.company.dto.ChannelDTO;
 import com.company.enums.ProfileRole;
 import com.company.service.ChannelService;
@@ -28,5 +29,13 @@ public class ChannelController {
         Integer pId = JwtUtil.getIdFromHeader(request, ProfileRole.USER);
 
         return ResponseEntity.ok(channelService.update(dto, key, pId));
+    }
+
+    @PutMapping("/update-photo")
+    public ResponseEntity<?> updatePhoto(@RequestBody @Valid ChangeProfilePhotoDTO dto,
+                                         HttpServletRequest request) {
+        Integer pId = JwtUtil.getIdFromHeader(request, ProfileRole.USER);
+
+        return ResponseEntity.ok(channelService.updateImage(dto, pId));
     }
 }

@@ -14,3 +14,13 @@ Content-Type: application/json
   "email": "akobir.abduganiev@ya.ru",
   "password": "akobir"
 }
+
+###
+POST http://localhost:8080/auth/login
+Content-Type: application/json
+
+{
+  "email": "ali@yandex.com",
+  "password": "alijon"
+}
+

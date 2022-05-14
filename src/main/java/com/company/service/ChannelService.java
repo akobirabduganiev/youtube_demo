@@ -1,10 +1,12 @@
 package com.company.service;
 
+import com.company.dto.ChangeProfilePhotoDTO;
 import com.company.dto.ChannelDTO;
 import com.company.entity.ChannelEntity;
 import com.company.entity.ProfileEntity;
 import com.company.enums.ChannelStatus;
 import com.company.exceptions.AppBadRequestException;
+import com.company.exceptions.ItemNotFoundException;
 import com.company.repository.ChannelRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,6 +19,8 @@ public class ChannelService {
     ChannelRepository channelRepository;
     @Autowired
     ProfileService profileService;
+    @Autowired
+    AttachService attachService;
 
     public ChannelDTO create(ChannelDTO dto, Integer pId) {
         ProfileEntity profile = profileService.get(pId);
@@ -52,6 +56,20 @@ public class ChannelService {
         return toDTO(entity);
     }
 
+    public boolean updateImage(ChangeProfilePhotoDTO dto, Integer pId) {
+
+        var entity = channelRepository.findByProfileIdAndKey(pId, dto.getChannelKey())
+                .orElseThrow(() -> new AppBadRequestException("Not Found!"));
+
+        if (entity.getChannelPhoto() != null) {
+            attachService.delete(entity.getChannelPhoto().getId());
+        }
+        channelRepository.updateAttach(dto.getPhotoId(), dto.getChannelKey());
+        channelRepository.updateLastModifiedDate(LocalDateTime.now(), dto.getChannelKey());
+
+        return true;
+    }
+
     private ChannelDTO toDTO(ChannelEntity entity) {
         ChannelDTO dto = new ChannelDTO();
         dto.setCreatedDate(entity.getCreatedDate());
@@ -66,5 +84,9 @@ public class ChannelService {
         dto.setBannerPhotoId(entity.getBannerPhotoId());
 
         return dto;
+    }
+
+    public ChannelEntity get(String key) {
+        return channelRepository.findByKey(key).orElseThrow(() -> new ItemNotFoundException("Not Found!"));
     }
 }
