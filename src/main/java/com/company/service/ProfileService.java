@@ -83,7 +83,10 @@ public class ProfileService {
         entity.setName(dto.getName());
         entity.setSurname(dto.getSurname());
         entity.setEmail(dto.getEmail());
-        entity.setPassword(dto.getPassword());
+
+        String password = DigestUtils.md5Hex(dto.getPassword());
+        entity.setPassword(password);
+
         entity.setLastModifiedDate(LocalDateTime.now());
         profileRepository.save(entity);
 

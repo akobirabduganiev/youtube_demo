@@ -72,7 +72,7 @@
     4. Update Channel banner ( USER and OWNER)
     5. Channel Pagination (ADMIN)
     6. Change Channel Status (ADMIN,USER and OWNER)
-    7. User Channel List (murojat qilgan userni)
+    7. User Channel List (murojaat qilgan userni)
 
 6. Playlist
     1. Create Playlist (USER)

@@ -1,10 +1,10 @@
 POST http://localhost:8080/channel/
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI4IiwiaWF0IjoxNjUyNDc0ODA0LCJleHAiOjE2NTI0Nzg0MDQsImlzcyI6InlvdXR1YmUiLCJyb2xlIjoiVVNFUiJ9.1lsVOiG6uk5DMg1sIoNapzEEaHXyOCbimJ19QKcBHWA
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI4IiwiaWF0IjoxNjUyNTU2MDE5LCJleHAiOjE2NTI1NTk2MTksImlzcyI6InlvdXR1YmUiLCJyb2xlIjoiVVNFUiJ9.3n5vbSV9AnZ-M1R78XtjmSyvBpJyXayF28HhTmgeRWE
 
 {
-  "name": "TOPLES",
-  "description": "Juda ham yaxshi kanal obuna bo'lishni unutmang!"
+  "name": "MrBeast",
+  "description": "Albatta eng yaxshi kanallardan biri hisoblanadi!"
 }
 
 ###
@@ -23,6 +23,41 @@ Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI4IiwiaWF0IjoxNjUyNTUzODMwLCJleHAiOjE2NTI1NTc0MzAsImlzcyI6InlvdXR1YmUiLCJyb2xlIjoiVVNFUiJ9.6EgQR0-0AKNXQYslTlgz5pfOy1v082DE8owsp5ATIF4
 
 {
-  "photoId" : "83a2b75e-97a5-4dc2-bb2a-5b41070acda9",
+  "photoId": "83a2b75e-97a5-4dc2-bb2a-5b41070acda9",
   "channelKey": "08aeb3de-8dda-4f5c-b5b5-d34d0bbf7db7"
+}
+
+###
+PUT http://localhost:8080/channel/update-banner
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI4IiwiaWF0IjoxNjUyNTU2MDE5LCJleHAiOjE2NTI1NTk2MTksImlzcyI6InlvdXR1YmUiLCJyb2xlIjoiVVNFUiJ9.3n5vbSV9AnZ-M1R78XtjmSyvBpJyXayF28HhTmgeRWE
+
+{
+  "photoId": "83a2b75e-97a5-4dc2-bb2a-5b41070acda9",
+  "channelKey": "08aeb3de-8dda-4f5c-b5b5-d34d0bbf7db7"
+}
+
+###
+GET http://localhost:8080/channel/adm/list
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyIiwiaWF0IjoxNjUyNTU2NzIyLCJleHAiOjE2NTI1NjAzMjIsImlzcyI6InlvdXR1YmUiLCJyb2xlIjoiQURNSU4ifQ.kMNAJeMlAJGhTW62bw9lkouxUzjPPdJ0wIp6OowU8sA
+
+###
+GET http://localhost:8080/channel/channel-list
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI4IiwiaWF0IjoxNjUyNTYwMzY3LCJleHAiOjE2NTI1NjM5NjcsImlzcyI6InlvdXR1YmUiLCJyb2xlIjoiVVNFUiJ9.oCteSSE0aobzRiJe50QtHvJzjs5g-xvIqLNI45XQ-5A
+
+###
+GET http://localhost:8080/channel/channel-list
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI5IiwiaWF0IjoxNjUyNTU4NzkwLCJleHAiOjE2NTI1NjIzOTAsImlzcyI6InlvdXR1YmUiLCJyb2xlIjoiVVNFUiJ9.0jwfIeg1LvCTnwUHv5aIuomkch1XqRJYuHLE4q_dQVE
+
+###
+PUT http://localhost:8080/channel/change-status
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI4IiwiaWF0IjoxNjUyNTYwMzY3LCJleHAiOjE2NTI1NjM5NjcsImlzcyI6InlvdXR1YmUiLCJyb2xlIjoiVVNFUiJ9.oCteSSE0aobzRiJe50QtHvJzjs5g-xvIqLNI45XQ-5A
+
+{
+  "status" : "ACTIVE",
+  "key" : "c9d8b584-59c4-4868-bebd-1fd0c3f40530"
 }

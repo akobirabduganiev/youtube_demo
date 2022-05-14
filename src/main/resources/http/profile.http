@@ -15,10 +15,10 @@ Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyIiwiaWF0IjoxNjUyNDc2NDIyLCJleHAiOjE2NTI0ODAwMjIsImlzcyI6InlvdXR1YmUiLCJyb2xlIjoiQURNSU4ifQ.VndYs0jV6btSvtByearrnXlgq-zDZvGWGe2LWWw0-Pk
 
 {
-"name": "Ali",
-"surname": "Aliyev",
-"email": "ali@yandex.com",
-"password": "alijon"
+  "name": "Ali",
+  "surname": "Aliyev",
+  "email": "ali@yandex.com",
+  "password": "alijon"
 }
 
 ###
@@ -33,4 +33,16 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI3IiwiaWF0IjoxNjUyMzQwMjQyL
   "originName": "Untitled-1.jpg",
   "size": 857459,
   "createdDate": "2022-05-12T11:57:51.5087266"
+}
+
+###
+PUT http://localhost:8080/profile/adm/8
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyIiwiaWF0IjoxNjUyNTU2NzIyLCJleHAiOjE2NTI1NjAzMjIsImlzcyI6InlvdXR1YmUiLCJyb2xlIjoiQURNSU4ifQ.kMNAJeMlAJGhTW62bw9lkouxUzjPPdJ0wIp6OowU8sA
+
+{
+  "name": "Toshmat",
+  "surname": "Toshmatov",
+  "email": "tosha@yandex.com",
+  "password": "toshmat"
 }

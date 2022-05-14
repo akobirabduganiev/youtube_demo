@@ -1,6 +1,8 @@
 package com.company.controller;
 
+import com.company.dto.ChangeBannerDTO;
 import com.company.dto.ChangeProfilePhotoDTO;
+import com.company.dto.ChangeStatusDTO;
 import com.company.dto.ChannelDTO;
 import com.company.enums.ProfileRole;
 import com.company.service.ChannelService;
@@ -37,5 +39,37 @@ public class ChannelController {
         Integer pId = JwtUtil.getIdFromHeader(request, ProfileRole.USER);
 
         return ResponseEntity.ok(channelService.updateImage(dto, pId));
+    }
+
+    @PutMapping("/update-banner")
+    public ResponseEntity<?> updateBanner(@RequestBody @Valid ChangeBannerDTO dto,
+                                          HttpServletRequest request) {
+        Integer pId = JwtUtil.getIdFromHeader(request, ProfileRole.USER);
+
+        return ResponseEntity.ok(channelService.updateBanner(dto, pId));
+    }
+
+    @PutMapping("/change-status")
+    public ResponseEntity<?> changeStatus(@RequestBody @Valid ChangeStatusDTO dto,
+                                          HttpServletRequest request) {
+        Integer pId = JwtUtil.getIdFromHeader(request, ProfileRole.USER);
+
+        return ResponseEntity.ok(channelService.updateStatus(dto, pId));
+    }
+
+    @GetMapping("/adm/list")
+    public ResponseEntity<?> list(@RequestParam(value = "page", defaultValue = "0") int page,
+                                  @RequestParam(value = "size", defaultValue = "3") int size,
+                                  HttpServletRequest request) {
+        JwtUtil.getIdFromHeader(request, ProfileRole.ADMIN);
+        return ResponseEntity.ok(channelService.paginationList(page, size));
+    }
+
+
+    @GetMapping("/channel-list")
+    public ResponseEntity<?> list(HttpServletRequest request) {
+        Integer pId = JwtUtil.getIdFromHeader(request, ProfileRole.USER);
+
+        return ResponseEntity.ok(channelService.channelList(pId));
     }
 }

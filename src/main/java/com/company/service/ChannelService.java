@@ -1,6 +1,8 @@
 package com.company.service;
 
+import com.company.dto.ChangeBannerDTO;
 import com.company.dto.ChangeProfilePhotoDTO;
+import com.company.dto.ChangeStatusDTO;
 import com.company.dto.ChannelDTO;
 import com.company.entity.ChannelEntity;
 import com.company.entity.ProfileEntity;
@@ -9,9 +11,14 @@ import com.company.exceptions.AppBadRequestException;
 import com.company.exceptions.ItemNotFoundException;
 import com.company.repository.ChannelRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class ChannelService {
@@ -58,16 +65,63 @@ public class ChannelService {
 
     public boolean updateImage(ChangeProfilePhotoDTO dto, Integer pId) {
 
+        attachService.get(dto.getPhotoId());
         var entity = channelRepository.findByProfileIdAndKey(pId, dto.getChannelKey())
                 .orElseThrow(() -> new AppBadRequestException("Not Found!"));
 
         if (entity.getChannelPhoto() != null) {
             attachService.delete(entity.getChannelPhoto().getId());
         }
-        channelRepository.updateAttach(dto.getPhotoId(), dto.getChannelKey());
+        channelRepository.updateChannelPhoto(dto.getPhotoId(), dto.getChannelKey());
         channelRepository.updateLastModifiedDate(LocalDateTime.now(), dto.getChannelKey());
 
         return true;
+    }
+
+    public boolean updateBanner(ChangeBannerDTO dto, Integer pId) {
+        attachService.get(dto.getPhotoId());
+
+        var entity = channelRepository.findByProfileIdAndKey(pId, dto.getChannelKey())
+                .orElseThrow(() -> new AppBadRequestException("Not Found!"));
+
+        if (entity.getBannerPhoto() != null) {
+            attachService.delete(entity.getBannerPhoto().getId());
+        }
+        channelRepository.updateBannerPhoto(dto.getPhotoId(), dto.getChannelKey());
+        channelRepository.updateLastModifiedDate(LocalDateTime.now(), dto.getChannelKey());
+
+        return true;
+    }
+
+    public boolean updateStatus(ChangeStatusDTO dto, Integer pId) {
+        channelRepository.findByProfileIdAndKey(pId, dto.getKey())
+                .orElseThrow(() -> new AppBadRequestException("Not Found!"));
+
+        channelRepository.updateChannelStatus(dto.getStatus(), dto.getKey());
+        channelRepository.updateLastModifiedDate(LocalDateTime.now(), dto.getKey());
+
+        return true;
+    }
+
+    public List<ChannelDTO> paginationList(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdDate"));
+
+        List<ChannelDTO> list = channelRepository.findAll(pageable).stream().map(this::toDTO).toList();
+        if (list.isEmpty()) throw new ItemNotFoundException("Channel List is empty!");
+
+        return list;
+    }
+
+    public List<ChannelDTO> channelList(Integer pId) {
+
+        List<ChannelEntity> list = channelRepository.findByProfileId(pId);
+        if (list.isEmpty()) throw new ItemNotFoundException("Channel List is empty!");
+
+        List<ChannelDTO> channelList = new ArrayList<>();
+        for (ChannelEntity entity : list)
+            channelList.add(toDTO(entity));
+
+        return channelList;
     }
 
     private ChannelDTO toDTO(ChannelEntity entity) {
