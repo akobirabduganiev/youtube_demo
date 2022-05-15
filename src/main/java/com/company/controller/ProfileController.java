@@ -1,7 +1,9 @@
 package com.company.controller;
 
-import com.company.dto.AttachDTO;
+import com.company.dto.ChangeProfileDetailDTO;
+import com.company.dto.ChangeProfileImageDTO;
 import com.company.dto.ProfileDTO;
+import com.company.enums.ProfileRole;
 import com.company.service.ProfileService;
 import com.company.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,18 +46,26 @@ public class ProfileController {
     }
 
 
-    @PostMapping("/image")
-    public ResponseEntity<?> updateImage(@RequestBody AttachDTO image,
+    @PutMapping("/image")
+    public ResponseEntity<?> updateImage(@RequestBody ChangeProfileImageDTO dto,
                                          HttpServletRequest request) {
         Integer pId = JwtUtil.getIdFromHeader(request);
         try {
-            return ResponseEntity.ok(profileService.updateImage(image.getId(), pId));
+            return ResponseEntity.ok(profileService.updateImage(dto, pId));
         } catch (DataIntegrityViolationException e) {
             e.printStackTrace();
             return ResponseEntity.badRequest().body("Attach not found");
         }
 
 
+    }
+
+    @PutMapping("/update-detail")
+    public ResponseEntity<?> updateDetail(@RequestBody ChangeProfileDetailDTO dto,
+                                          HttpServletRequest request){
+        Integer id = JwtUtil.getIdFromHeader(request, ProfileRole.USER);
+
+        return ResponseEntity.ok(profileService.updateProfileDetail(dto, id));
     }
 
 

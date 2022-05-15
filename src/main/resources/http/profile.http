@@ -38,11 +38,21 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI3IiwiaWF0IjoxNjUyMzQwMjQyL
 ###
 PUT http://localhost:8080/profile/adm/8
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyIiwiaWF0IjoxNjUyNTU2NzIyLCJleHAiOjE2NTI1NjAzMjIsImlzcyI6InlvdXR1YmUiLCJyb2xlIjoiQURNSU4ifQ.kMNAJeMlAJGhTW62bw9lkouxUzjPPdJ0wIp6OowU8sA
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI5IiwiaWF0IjoxNjUyNjEwNTU3LCJleHAiOjE2NTI2MTQxNTcsImlzcyI6InlvdXR1YmUiLCJyb2xlIjoiVVNFUiJ9.edhZI-oyBoQNlbA0kPsgcQYb9yjFHmCdwfEsHZfZZv4
 
 {
   "name": "Toshmat",
   "surname": "Toshmatov",
   "email": "tosha@yandex.com",
   "password": "toshmat"
+}
+
+###
+PUT http://localhost:8080/profile/update-detail
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI5IiwiaWF0IjoxNjUyNjEwNTU3LCJleHAiOjE2NTI2MTQxNTcsImlzcyI6InlvdXR1YmUiLCJyb2xlIjoiVVNFUiJ9.edhZI-oyBoQNlbA0kPsgcQYb9yjFHmCdwfEsHZfZZv4
+
+{
+  "name": "Alijon",
+  "surname": "Alijonov"
 }

@@ -1,5 +1,7 @@
 package com.company.service;
 
+import com.company.dto.ChangeProfileDetailDTO;
+import com.company.dto.ChangeProfileImageDTO;
 import com.company.dto.ProfileDTO;
 import com.company.entity.ProfileEntity;
 import com.company.enums.ProfileRole;
@@ -93,6 +95,15 @@ public class ProfileService {
         return toDTO(entity);
     }
 
+    public String updateProfileDetail(ChangeProfileDetailDTO dto, Integer pId) {
+
+        profileRepository.findById(pId).orElseThrow(() -> new ItemNotFoundException("Profile not found!"));
+        profileRepository.updateProfileDetail(dto.getName(), dto.getSurname(), pId);
+        profileRepository.updateLastModifiedDate(LocalDateTime.now(), pId);
+
+        return "Profile updated successfully!";
+    }
+
     public Boolean delete(Integer id, Integer pId) {
         ProfileEntity profile = get(pId);
         if (!profile.getRole().equals(ProfileRole.ADMIN)) {
@@ -103,14 +114,14 @@ public class ProfileService {
         return true;
     }
 
-    public boolean updateImage(String attachId, Integer pId) {
+    public boolean updateImage(ChangeProfileImageDTO dto, Integer pId) {
         ProfileEntity profileEntity = get(pId);
 
         if (profileEntity.getAttach() != null) {
             attachService.delete(profileEntity.getAttach().getId());
         }
+        profileRepository.updateAttach(dto.getAttachId(), pId);
         profileRepository.updateLastModifiedDate(LocalDateTime.now(), pId);
-        profileRepository.updateAttach(attachId, pId);
 
         return true;
     }
