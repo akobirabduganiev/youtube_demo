@@ -1,8 +1,6 @@
 package com.company.service;
 
-import com.company.dto.AttachDTO;
-import com.company.dto.AuthDTO;
-import com.company.dto.ProfileDTO;
+import com.company.dto.*;
 import com.company.entity.AttachEntity;
 import com.company.entity.ProfileEntity;
 import com.company.enums.ProfileRole;
@@ -14,6 +12,7 @@ import com.company.exceptions.PasswordOrEmailWrongException;
 import com.company.repository.ProfileRepository;
 import com.company.util.JwtUtil;
 import io.jsonwebtoken.JwtException;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,6 +20,7 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
+@Slf4j
 public class AuthService {
     @Autowired
     ProfileRepository profileRepository;
@@ -71,6 +71,7 @@ public class AuthService {
         Optional<ProfileEntity> optional = profileRepository.findByEmail(dto.getEmail());
 
         if (optional.isPresent()) {
+            log.info("Email already exists {}", dto.getEmail());
             throw new EmailAlreadyExistsException("Email Already Exits");
         }
 
@@ -98,12 +99,11 @@ public class AuthService {
         }
         profileRepository.updateStatus(ProfileStatus.ACTIVE, userId);
     }
-
     private void sendVerificationEmail(ProfileEntity entity) {
         StringBuilder builder = new StringBuilder();
         String jwt = JwtUtil.encode(entity.getId());
         builder.append("To verify your registration click to next link.\n\n");
-        builder.append("http://localhost:8080/auth/verification/ ").append(jwt);
+        builder.append("http://localhost:8080/auth/verification/").append(jwt);
         emailService.send(entity.getEmail(), "Activate Your Registration", builder.toString());
 
     }

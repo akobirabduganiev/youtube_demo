@@ -2,7 +2,7 @@ package com.company.controller;
 
 import com.company.dto.ChangeBannerDTO;
 import com.company.dto.ChangeProfilePhotoDTO;
-import com.company.dto.ChangeStatusDTO;
+import com.company.dto.ChangeChannelStatusDTO;
 import com.company.dto.ChannelDTO;
 import com.company.enums.ProfileRole;
 import com.company.service.ChannelService;
@@ -50,7 +50,7 @@ public class ChannelController {
     }
 
     @PutMapping("/change-status")
-    public ResponseEntity<?> changeStatus(@RequestBody @Valid ChangeStatusDTO dto,
+    public ResponseEntity<?> changeStatus(@RequestBody @Valid ChangeChannelStatusDTO dto,
                                           HttpServletRequest request) {
         Integer pId = JwtUtil.getIdFromHeader(request, ProfileRole.USER);
 

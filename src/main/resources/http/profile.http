@@ -50,9 +50,21 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI5IiwiaWF0IjoxNjUyNjEwNTU3L
 ###
 PUT http://localhost:8080/profile/update-detail
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI5IiwiaWF0IjoxNjUyNjEwNTU3LCJleHAiOjE2NTI2MTQxNTcsImlzcyI6InlvdXR1YmUiLCJyb2xlIjoiVVNFUiJ9.edhZI-oyBoQNlbA0kPsgcQYb9yjFHmCdwfEsHZfZZv4
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI5IiwiaWF0IjoxNjUyNjExNDc1LCJleHAiOjE2NTI2MTUwNzUsImlzcyI6InlvdXR1YmUiLCJyb2xlIjoiVVNFUiJ9.AEyQALvNWcFkdt-MxGrTfLWQ3RL8Ykhnh_1V-_eJu3Q
 
 {
   "name": "Alijon",
   "surname": "Alijonov"
 }
+
+###
+PUT http://localhost:8080/profile/change-email
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI5IiwiaWF0IjoxNjUyNjIwNjk0LCJleHAiOjE2NTI2MjQyOTQsImlzcyI6InlvdXR1YmUiLCJyb2xlIjoiVVNFUiJ9.nafzD6Zjc-cGCOaU7RsNw4Vm8lDk4G2-gMz1fe6u0Q8
+
+{
+  "email": "akobir.abduganiev@yandex.com"
+}
+
+###
+GET http://localhost:8080/auth/verification/eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI5IiwiaWF0IjoxNjUyNjIzMzcyLCJleHAiOjE2NTI2MjY5NzIsImlzcyI6InlvdXR1YmUiLCJlbWFpbCI6ImFrb2Jpci5hYmR1Z2FuaWV2QHlhbmRleC5jb20ifQ.cF5FwuxSbweo3Ha397hlMoxD7anKq-0d_LeHKXPifd8

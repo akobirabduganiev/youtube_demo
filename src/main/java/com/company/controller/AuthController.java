@@ -3,6 +3,7 @@ package com.company.controller;
 import com.company.dto.AuthDTO;
 import com.company.dto.ProfileDTO;
 import com.company.service.AuthService;
+import com.company.service.ProfileService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +17,8 @@ import javax.validation.Valid;
 public class AuthController {
     @Autowired
     private AuthService authService;
+    @Autowired
+    private ProfileService profileService;
 
     @PostMapping("/login")
     public ResponseEntity<?> create(@RequestBody @Valid AuthDTO dto) {
@@ -34,5 +37,10 @@ public class AuthController {
     public ResponseEntity<?> verification(@PathVariable("jwt") String jwt) {
         authService.verification(jwt);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/verification/email/{jwt}")
+    public ResponseEntity<?> changedEmailVerification(@PathVariable("jwt") String jwt) {
+        return ResponseEntity.ok(profileService.verification(jwt));
     }
 }

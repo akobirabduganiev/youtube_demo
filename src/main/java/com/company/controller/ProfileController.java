@@ -1,8 +1,6 @@
 package com.company.controller;
 
-import com.company.dto.ChangeProfileDetailDTO;
-import com.company.dto.ChangeProfileImageDTO;
-import com.company.dto.ProfileDTO;
+import com.company.dto.*;
 import com.company.enums.ProfileRole;
 import com.company.service.ProfileService;
 import com.company.util.JwtUtil;
@@ -47,7 +45,7 @@ public class ProfileController {
 
 
     @PutMapping("/image")
-    public ResponseEntity<?> updateImage(@RequestBody ChangeProfileImageDTO dto,
+    public ResponseEntity<?> updateImage(@RequestBody @Valid ChangeProfileImageDTO dto,
                                          HttpServletRequest request) {
         Integer pId = JwtUtil.getIdFromHeader(request);
         try {
@@ -61,12 +59,26 @@ public class ProfileController {
     }
 
     @PutMapping("/update-detail")
-    public ResponseEntity<?> updateDetail(@RequestBody ChangeProfileDetailDTO dto,
-                                          HttpServletRequest request){
+    public ResponseEntity<?> updateDetail(@RequestBody @Valid ChangeProfileDetailDTO dto,
+                                          HttpServletRequest request) {
         Integer id = JwtUtil.getIdFromHeader(request, ProfileRole.USER);
 
         return ResponseEntity.ok(profileService.updateProfileDetail(dto, id));
     }
 
+    @PutMapping("/change-password")
+    public ResponseEntity<?> changePassword(@RequestBody @Valid ChangePasswordDTO dto,
+                                            HttpServletRequest request) {
+        Integer id = JwtUtil.getIdFromHeader(request);
+        return ResponseEntity.ok(profileService.changePassword(dto, id));
+    }
+
+    @PutMapping("change-email")
+    public ResponseEntity<?> changeEmail(@RequestBody @Valid ChangeProfileEmailDTO dto,
+                                         HttpServletRequest request) {
+        Integer id = JwtUtil.getIdFromHeader(request);
+
+        return ResponseEntity.ok(profileService.changeEmail(dto, id));
+    }
 
 }

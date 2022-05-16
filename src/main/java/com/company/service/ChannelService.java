@@ -2,7 +2,7 @@ package com.company.service;
 
 import com.company.dto.ChangeBannerDTO;
 import com.company.dto.ChangeProfilePhotoDTO;
-import com.company.dto.ChangeStatusDTO;
+import com.company.dto.ChangeChannelStatusDTO;
 import com.company.dto.ChannelDTO;
 import com.company.entity.ChannelEntity;
 import com.company.entity.ProfileEntity;
@@ -93,7 +93,7 @@ public class ChannelService {
         return true;
     }
 
-    public boolean updateStatus(ChangeStatusDTO dto, Integer pId) {
+    public boolean updateStatus(ChangeChannelStatusDTO dto, Integer pId) {
         channelRepository.findByProfileIdAndKey(pId, dto.getKey())
                 .orElseThrow(() -> new AppBadRequestException("Not Found!"));
 

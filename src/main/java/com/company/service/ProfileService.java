@@ -1,15 +1,17 @@
 package com.company.service;
 
-import com.company.dto.ChangeProfileDetailDTO;
-import com.company.dto.ChangeProfileImageDTO;
-import com.company.dto.ProfileDTO;
+import com.company.dto.*;
 import com.company.entity.ProfileEntity;
 import com.company.enums.ProfileRole;
 import com.company.enums.ProfileStatus;
+import com.company.exceptions.AppBadRequestException;
 import com.company.exceptions.AppForbiddenException;
 import com.company.exceptions.EmailAlreadyExistsException;
 import com.company.exceptions.ItemNotFoundException;
 import com.company.repository.ProfileRepository;
+import com.company.util.JwtUtil;
+import io.jsonwebtoken.JwtException;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,19 +20,24 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
+@Slf4j
 public class ProfileService {
     @Autowired
     private ProfileRepository profileRepository;
     @Autowired
     private AttachService attachService;
+    @Autowired
+    private EmailService emailService;
 
     public ProfileDTO create(ProfileDTO dto, Integer pId) {
         ProfileEntity profile = get(pId);
         if (!profile.getRole().equals(ProfileRole.ADMIN)) {
+            log.warn("Not access {}", pId);
             throw new AppForbiddenException("Not access");
         }
         Optional<ProfileEntity> optional = profileRepository.findByEmail(dto.getEmail());
         if (optional.isPresent()) {
+            log.warn("Email already exists {}", dto.getEmail());
             throw new EmailAlreadyExistsException("Email Already Exits");
         }
 
@@ -60,23 +67,25 @@ public class ProfileService {
     public ProfileDTO getById(Integer id, Integer pId) {
         ProfileEntity profile = get(pId);
         if (!profile.getRole().equals(ProfileRole.ADMIN)) {
+            log.warn("Not access {}", pId);
             throw new AppForbiddenException("Not access");
         }
-        ProfileEntity entity = profileRepository.findById(id).orElseThrow(() -> new ItemNotFoundException("Not Found!"));
+        ProfileEntity entity = profileRepository.findById(id).orElseThrow(() -> {
+            log.warn("Not found {}", id);
+            return new ItemNotFoundException("Profile not Found!");
+        });
         return toDTO(entity);
-    }
-
-    public ProfileEntity get(Integer id) {
-        return profileRepository.findById(id).orElseThrow(() -> new ItemNotFoundException("Not Found!"));
     }
 
     public ProfileDTO update(Integer id, ProfileDTO dto, Integer pId) {
         ProfileEntity profile = get(pId);
         if (!profile.getRole().equals(ProfileRole.ADMIN)) {
+            log.warn("Not access {}", pId);
             throw new AppForbiddenException("Not access");
         }
         Optional<ProfileEntity> optional = profileRepository.findByEmail(dto.getEmail());
         if (optional.isPresent()) {
+            log.warn("Email already used {}", dto.getEmail());
             throw new EmailAlreadyExistsException("This Email already used!");
         }
 
@@ -95,18 +104,10 @@ public class ProfileService {
         return toDTO(entity);
     }
 
-    public String updateProfileDetail(ChangeProfileDetailDTO dto, Integer pId) {
-
-        profileRepository.findById(pId).orElseThrow(() -> new ItemNotFoundException("Profile not found!"));
-        profileRepository.updateProfileDetail(dto.getName(), dto.getSurname(), pId);
-        profileRepository.updateLastModifiedDate(LocalDateTime.now(), pId);
-
-        return "Profile updated successfully!";
-    }
-
     public Boolean delete(Integer id, Integer pId) {
         ProfileEntity profile = get(pId);
         if (!profile.getRole().equals(ProfileRole.ADMIN)) {
+            log.warn("Not access {}", pId);
             throw new AppForbiddenException("Not access");
         }
         profileRepository.findById(id).orElseThrow(() -> new ItemNotFoundException("Not Found!"));
@@ -121,9 +122,39 @@ public class ProfileService {
             attachService.delete(profileEntity.getAttach().getId());
         }
         profileRepository.updateAttach(dto.getAttachId(), pId);
-        profileRepository.updateLastModifiedDate(LocalDateTime.now(), pId);
+        updateLastModifiedDate(pId);
 
         return true;
+    }
+
+    public String updateProfileDetail(ChangeProfileDetailDTO dto, Integer pId) {
+
+        get(pId);
+        profileRepository.updateProfileDetail(dto.getName(), dto.getSurname(), pId);
+        updateLastModifiedDate(pId);
+
+        return "Profile updated successfully!";
+    }
+
+    public String changePassword(ChangePasswordDTO dto, Integer pId) {
+        get(pId);
+        profileRepository.changePassword(DigestUtils.md5Hex(dto.getNewPassword()),
+                DigestUtils.md5Hex(dto.getOldPassword()), pId);
+        updateLastModifiedDate(pId);
+
+        return "Password changed successfully!";
+    }
+
+    public String changeEmail(ChangeProfileEmailDTO dto, Integer pId) {
+        get(pId);
+        Optional<ProfileEntity> optional = profileRepository.findByEmail(dto.getEmail());
+        if (optional.isPresent()) {
+            log.warn("Email already exists {}", dto.getEmail());
+            throw new EmailAlreadyExistsException("Email Already Exits");
+        }
+        sendVerificationEmail(dto, pId);
+
+        return "email verification not completed! please confirm your email";
     }
 
     private ProfileDTO toDTO(ProfileEntity entity) {
@@ -137,5 +168,37 @@ public class ProfileService {
         dto.setCreatedDate(entity.getCreatedDate());
         dto.setAttachId(entity.getAttachId());
         return dto;
+    }
+
+    public ProfileEntity get(Integer id) {
+        return profileRepository.findById(id).orElseThrow(() -> {
+            log.warn("profile not found {}", id);
+            throw new ItemNotFoundException("Profile not found!");
+        });
+    }
+
+    private void updateLastModifiedDate(Integer id) {
+        profileRepository.updateLastModifiedDate(LocalDateTime.now(), id);
+    }
+
+    private void sendVerificationEmail(ChangeProfileEmailDTO dto, Integer id) {
+
+        StringBuilder builder = new StringBuilder();
+        String jwt = JwtUtil.encode(id, dto.getEmail());
+        builder.append("To verify your registration click to next link.\n\n");
+        builder.append("http://localhost:8080/auth/verification/email/").append(jwt);
+        emailService.send(dto.getEmail(), "Activate Your Registration", builder.toString());
+    }
+
+    public String verification(String jwt) {
+        ProfileJwtDTO dto;
+        try {
+            dto = JwtUtil.decode(jwt);
+        } catch (JwtException e) {
+            throw new AppBadRequestException("Verification not completed!");
+        }
+        profileRepository.changeEmail(dto.getEmail(), dto.getId());
+
+        return "Your email confirmed!";
     }
 }

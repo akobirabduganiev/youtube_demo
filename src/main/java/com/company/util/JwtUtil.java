@@ -12,15 +12,19 @@ import java.util.Date;
 public class JwtUtil {
     private final static String SECRET_KEY = "kalitso'z";
 
-    public static String encode(Integer id, ProfileRole role) { // 3 -> dsasdasda.asdasdasd.asdasdsa
-        return doEncode(id, role, 60);
+    public static String encode(Integer id, String email) {
+        return doEncode(id, null, email, 60);
+    }
+
+    public static String encode(Integer id, ProfileRole role) {
+        return doEncode(id, role, null, 60);
     }
 
     public static String encode(Integer id) {
-        return doEncode(id, null, 30);
+        return doEncode(id, null, null, 30);
     }
 
-    public static String doEncode(Integer id, ProfileRole role, long minute) {
+    public static String doEncode(Integer id, ProfileRole role, String email, long minute) {
         JwtBuilder jwtBuilder = Jwts.builder();
         jwtBuilder.setSubject(String.valueOf(id));
         jwtBuilder.setIssuedAt(new Date()); // 10:15
@@ -28,9 +32,8 @@ public class JwtUtil {
         jwtBuilder.setExpiration(new Date(System.currentTimeMillis() + (minute * 60 * 1000)));
         jwtBuilder.setIssuer("youtube");
 
-        if (role != null) {
-            jwtBuilder.claim("role", role);
-        }
+        if (role != null) jwtBuilder.claim("role", role);
+        if (email != null) jwtBuilder.claim("email", email);
 
         return jwtBuilder.compact();
     }
@@ -44,8 +47,12 @@ public class JwtUtil {
         Claims claims = jws.getBody();
         String id = claims.getSubject();
         String role = String.valueOf(claims.get("role"));
+        String email = String.valueOf(claims.get("email"));
 
-        return new ProfileJwtDTO(Integer.parseInt(id), ProfileRole.valueOf(role));
+        if (role.equals("null"))
+            return new ProfileJwtDTO(Integer.parseInt(id), email);
+
+        return new ProfileJwtDTO(Integer.parseInt(id), ProfileRole.valueOf(role), email);
     }
 
     public static Integer decodeAndGetId(String jwt) {
@@ -59,6 +66,7 @@ public class JwtUtil {
 
         return Integer.parseInt(id);
     }
+
 
     public static Integer getIdFromHeader(HttpServletRequest request, ProfileRole... requiredRoles) {
         try {
