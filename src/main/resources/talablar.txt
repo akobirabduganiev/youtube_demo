@@ -2,7 +2,7 @@
 1. Profile
     id,name,surname,email,photo,role,status
 2. Attach
-    id(uuid),origin_name,size,type (extension),path
+    id(uuid),origin_name,size,type (extension),path,duration
 3. Category
     id,name,created_date
 4. Tag
@@ -15,7 +15,7 @@
     id, preview_attach_id,title,category_id,attach_id,created_date,published_date,status(private,public),
     key, type(video,short),view_count,shared_count,description,channel_id,(like_count,dislike_count)
 8. playlist_video
-    id,playlist_id,video_id,created_id
+    id,playlist_id,video_id,created_date, order_num
 9. video_tag
     id,video_id,tag_id,created_date
 10. Comment
@@ -72,18 +72,35 @@
     4. Update Channel banner ( USER and OWNER)
     5. Channel Pagination (ADMIN)
     6. Change Channel Status (ADMIN,USER and OWNER)
-    7. User Channel List (murojaat qilgan userni)
+    7. User Channel List (murojat qilgan userni)
 
+---------------
 6. Playlist
     1. Create Playlist (USER)
     2. Update Playlist(USER and OWNER)
     3. Change Playlist Status (USER and OWNER)
     4. Delete Playlist (USER and OWNER, ADMIN)
     5. Playlist Pagination (ADMIN)
-    6. Playlist List By UserId (ADMIN)
-    7. Get User Playlist (murojat qilgan user ni)
-    8. Get Channel Palay List By ChannelKey
+        PlayListInfo
+    6. Playlist List By UserId (order by order number desc) (ADMIN)
+        PlayListInfo
+    7. Get User Playlist (order by order number desc) (murojat qilgan user ni)
+        PlayListShortInfo
+    8. Get Channel Play List By ChannelKey (order by order_num desc) (only Public)
+        PlayListShortInfo
+        Example:  https://www.youtube.com/channel/UCFoy0KOV9sihL61PJSh7x1g/playlists
+    9. Get Playlist by id
+        id,name,video_count, total_view_count (shu play listdagi videolarni ko'rilganlar soni),
+        last_update_date
+        Example: left_side  https://www.youtube.com/playlist?list=PLeUA5nZ_B5224RX0IDQlM11hsKZuW9iUA
 
+
+        PlayListShortInfo
+            id, name,created_date,channel(id,name),video_count,video_list[{id,name,key,duration}] (first 2)
+        PlayListInfo
+            id,channel(id,name,photo(id,url),key),name,description,status(private,public),order_num,
+            profile(id,name,surname,photo(id,url))
+---------------
 7. Video
     1. Create Video (USER)
     2. Update Video Detail (USER and OWNER)
@@ -93,19 +110,61 @@
         VideShortInfo
     6. Search video by Title
         VideShortInfo
-    7. Get Video By key (If Status PRIVATE allow only for OWNER or ADMIN)
-       VideFullInfo
-    8. Get Video List Pagination (ADMIN)
+    7. Search video by tag_id with pagination
+            VideShortInfo
+    8. Get Video By key (If Status PRIVATE allow only for OWNER or ADMIN)
+        VideFullInfo
+    9. Get Video List Pagination (ADMIN)
         (VideShortInfo + owner (is,name,surname) + playlist (id,name))
-    9. Get Channel Video List Pagination (created_date desc)
-         VideShortInfo
+    10. Get Channel Video List Pagination (created_date desc)
+         VidePlayListInfo
 
     VideFullInfo (id,key,title,description,
                 preview_attach(id,url),attach(id,url,duration),
                 category(id,name),tagList(id,name),
                 published_date, channel(id,name,photo(url)),
                 view_count,shared_count,Like(like_count,dislike_count,
-                isUserLiked,IsUserDisliked))
+                isUserLiked,IsUserDisliked),duration)
     VideShortInfo(id,key,title, preview_attach(id,url),
                    published_date, channel(id,name,photo(url)),
-                   view_count,)
+                   view_count,duration)
+    VidePlayListInfo(id,key,title, preview_attach(id,url),
+                       published_date,duration)
+---------------
+8. PlaylistVideo
+    1. Create (User and Owner)
+        (playlist_id,video_id, order_num) front dan keladigan malumotlar
+    2. Update
+        (playlist_id,video_id, order_num) front dan keladigan malumotlar
+    3. Delete PlayListVideo
+          (playlist_id,video_id) front dan keladigan malumotlar
+    4. Get Video list by playListId (video status published)
+        PlaylistVideoInfo
+        example: (right side) https://www.youtube.com/playlist?list=PLeUA5nZ_B5224RX0IDQlM11hsKZuW9iUA
+                              https://www.youtube.com/watch?v=QSQIxgnisP0&list=PLeUA5nZ_B5224RX0IDQlM11hsKZuW9iUA
+
+        PlaylistVideoInfo
+            playlist_id,video(id,name,preview_attach_id,title,duration),
+            channel(id,name,key),created_date, order_num
+---------------
+9. Video Tag
+    1. Add tag to video. (USER and OWNER)
+        (video_id,tag_id) keladigan malumot.
+    2. Delete tag from vide (USER and OWNER)
+        (video_id,tag_id) keladigan malumot.
+    3. Get video Tag List by videoId
+       (id,video_id,tag(id,name),created_date)
+---------------
+10. Comment
+    1. Crate Comment (USER)
+    2. Update Comment (USER AND OWNER)
+    3. Delete Comment (USER AND OWNER, ADMIN)
+    4. Comment List Pagination (ADMIN)
+    5. Comment List By profileId(ADMIN)
+    6. Comment List By Profile (murojat qilgan odamning comment lari) (USER AND OWNER)
+    6. Comment List by videoId
+
+    CommentInfo
+        id,content,created_date,(like_count,dislike_count)
+
+     id,profile_id,video_id,content,reply_id (like_count,dislike_count)
