@@ -4,10 +4,7 @@ import com.company.dto.*;
 import com.company.entity.ProfileEntity;
 import com.company.enums.ProfileRole;
 import com.company.enums.ProfileStatus;
-import com.company.exceptions.AppBadRequestException;
-import com.company.exceptions.AppForbiddenException;
-import com.company.exceptions.EmailAlreadyExistsException;
-import com.company.exceptions.ItemNotFoundException;
+import com.company.exceptions.*;
 import com.company.repository.ProfileRepository;
 import com.company.util.JwtUtil;
 import io.jsonwebtoken.JwtException;
@@ -138,8 +135,10 @@ public class ProfileService {
 
     public String changePassword(ChangePasswordDTO dto, Integer pId) {
         get(pId);
-        profileRepository.changePassword(DigestUtils.md5Hex(dto.getNewPassword()),
+        Boolean password = profileRepository.changePassword(DigestUtils.md5Hex(dto.getNewPassword()),
                 DigestUtils.md5Hex(dto.getOldPassword()), pId);
+        if (!password)
+            throw new PasswordOrEmailWrongException("Your password is wrong!");
         updateLastModifiedDate(pId);
 
         return "Password changed successfully!";

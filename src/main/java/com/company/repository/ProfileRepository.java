@@ -40,7 +40,7 @@ public interface ProfileRepository extends JpaRepository<ProfileEntity, Integer>
     @Transactional
     @Modifying
     @Query("update ProfileEntity set password=:password where id=:id and password=:oldPassword")
-    void changePassword(@Param("password") String newPassword, @Param("oldPassword") String oldPassword,
+    Boolean changePassword(@Param("password") String newPassword, @Param("oldPassword") String oldPassword,
                         @Param("id") Integer id);
 
     @Transactional
