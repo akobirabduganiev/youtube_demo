@@ -143,4 +143,8 @@ public class ChannelService {
     public ChannelEntity get(String key) {
         return channelRepository.findByKey(key).orElseThrow(() -> new ItemNotFoundException("Not Found!"));
     }
+
+    public ChannelEntity get(Integer id) {
+        return channelRepository.findById(id).orElseThrow(() -> new ItemNotFoundException("Not Found!"));
+    }
 }

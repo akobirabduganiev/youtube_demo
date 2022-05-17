@@ -144,7 +144,7 @@
                               https://www.youtube.com/watch?v=QSQIxgnisP0&list=PLeUA5nZ_B5224RX0IDQlM11hsKZuW9iUA
 
         PlaylistVideoInfo
-            playlist_id,video(id,name,preview_attach_id,title,duration),
+            playlist_id,video(id,preview_attach(id,key,url),title,duration),
             channel(id,name,key),created_date, order_num
 ---------------
 9. Video Tag
@@ -161,10 +161,62 @@
     3. Delete Comment (USER AND OWNER, ADMIN)
     4. Comment List Pagination (ADMIN)
     5. Comment List By profileId(ADMIN)
+        id,content,created_date,like_count,dislike_count, video(id,name,preview_attach_id,title,duration)
     6. Comment List By Profile (murojat qilgan odamning comment lari) (USER AND OWNER)
-    6. Comment List by videoId
+        id,content,created_date,like_count,dislike_count, video(id,name,preview_attach_id,title,duration)
+    7. Comment List by videoId
+        CommentInfo
+    8. Get Comment Replied Comment by comment Id (Commentga yozilgan commentlar)
+        CommentInfo
 
     CommentInfo
-        id,content,created_date,(like_count,dislike_count)
+        id,content,created_date,like_count,dislike_count,
+        profile(id,name,surname,photo(id,url))
 
-     id,profile_id,video_id,content,reply_id (like_count,dislike_count)
+11. Subscription
+    1. Create User Subscription (USER)
+        channel_id,notification_type (keladigna parametr)
+    2. Change Subscription Status (USER)
+        channel_id,status
+    3. Change Subscription Notification type (USER)
+        channel_id,notification_type
+    4. Get User Subscription List (only Active) (murojat qilgan user)
+        SubscriptionInfo
+    5. Get User Subscription List By UserId (only Active) (ADMIN)
+        SubscriptionInfo + created_date
+
+        SubscriptionInfo
+            id,channel(id,name,photo(id,url)),notification_type
+
+12. VideoLike
+    1. Create Video like
+    2. Remove Video Like
+    3. User Liked Video List (order by created_date desc) (USER)
+        VideoLikeInfo
+    4. Get User LikedVideo List By UserId (ADMIN)
+        VideoLikeInfo
+
+        VideoLikeInfo
+        id,video(id,name,key,channel(id,name),duration),preview_attach(id,url)
+13. CommentLike
+    1. Create Comment like
+    2. Remove Comment Like
+    3. User Liked Comment List (order by created_date desc) (USER)
+        VideoLikeInfo
+    4. Get User LikedComment List By UserId (ADMIN)
+        CommentLikeInfo
+
+        CommentLikeInfo
+        id,profile_id,comment_id,created_date,type(Like,Dislike)
+
+14. Report
+    1. Create repost (USER)
+    2. ReportList Pagination ADMIN
+        ReportInfo
+    3. Remove Report by id (ADMIN)
+    4. Report List By User id (ADMIN)
+        ReportInfo
+
+    RepostInfo
+        id,profile(id,name,surname,photo(id,key,url)),content,
+            entity_id(channel/video)),type(channel,video)

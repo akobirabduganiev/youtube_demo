@@ -81,3 +81,6 @@
 16 May 2022 - 11:35:36.164 - o.s.web.servlet.DispatcherServlet -  INFO  - Completed initialization in 1 ms
 16 May 2022 - 12:36:21.419 - com.zaxxer.hikari.pool.HikariPool -  WARN  - HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=16m12s862ms652µs700ns).
 16 May 2022 - 21:29:58.763 - com.zaxxer.hikari.pool.HikariPool -  WARN  - HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=8h22m18s478ms949µs900ns).
+16 May 2022 - 23:33:32.277 - o.s.o.j.LocalContainerEntityManagerFactoryBean -  INFO  - Closing JPA EntityManagerFactory for persistence unit 'default'
+16 May 2022 - 23:33:32.357 - com.zaxxer.hikari.HikariDataSource -  INFO  - HikariPool-1 - Shutdown initiated...
+16 May 2022 - 23:33:32.377 - com.zaxxer.hikari.HikariDataSource -  INFO  - HikariPool-1 - Shutdown completed.
