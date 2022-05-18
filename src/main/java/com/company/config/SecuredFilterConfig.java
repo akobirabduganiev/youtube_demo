@@ -16,7 +16,6 @@ public class SecuredFilterConfig {
         var bean = new FilterRegistrationBean<JwtFilter>();
         bean.setFilter(jwtTokenFilter);
         bean.addUrlPatterns("/region/adm/*");
-        bean.addUrlPatterns("/article_type/adm/*");
         bean.addUrlPatterns("/category/adm/*");
         bean.addUrlPatterns("/profile/adm/*");
         bean.addUrlPatterns("/profile/image/*");
@@ -26,6 +25,7 @@ public class SecuredFilterConfig {
         bean.addUrlPatterns("/tag/adm/*");
         bean.addUrlPatterns("/channel/*");
         bean.addUrlPatterns("/profile/*");
+        bean.addUrlPatterns("/video/*");
         return bean;
     }
 

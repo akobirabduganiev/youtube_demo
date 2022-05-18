@@ -1,9 +1,9 @@
 POST http://localhost:8080/channel/
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI4IiwiaWF0IjoxNjUyNTU2MDE5LCJleHAiOjE2NTI1NTk2MTksImlzcyI6InlvdXR1YmUiLCJyb2xlIjoiVVNFUiJ9.3n5vbSV9AnZ-M1R78XtjmSyvBpJyXayF28HhTmgeRWE
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI4IiwiaWF0IjoxNjUyODE2NjY2LCJleHAiOjE2NTI4MjAyNjYsImlzcyI6InlvdXR1YmUiLCJyb2xlIjoiVVNFUiJ9.zVqRKP6vA6Hfz0C3rqmVaKT3ABsTa7ZTzV-5K97sVT8
 
 {
-  "name": "MrBeast",
+  "name": "TOPLES",
   "description": "Albatta eng yaxshi kanallardan biri hisoblanadi!"
 }
 

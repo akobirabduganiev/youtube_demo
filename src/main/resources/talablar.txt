@@ -94,7 +94,6 @@
         last_update_date
         Example: left_side  https://www.youtube.com/playlist?list=PLeUA5nZ_B5224RX0IDQlM11hsKZuW9iUA
 
-
         PlayListShortInfo
             id, name,created_date,channel(id,name),video_count,video_list[{id,name,key,duration}] (first 2)
         PlayListInfo

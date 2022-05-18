@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @Getter
 @ToString
 @Setter
-public class VideoDTO implements Serializable {
+public class VideoDTO {
     private Integer id;
     private LocalDateTime createdDate;
     private LocalDateTime lastModifiedDate;

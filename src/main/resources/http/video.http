@@ -1,0 +1,13 @@
+POST http://localhost:8080/video/create
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI4IiwiaWF0IjoxNjUyODQ5OTA1LCJleHAiOjE2NTI4NTM1MDUsImlzcyI6InlvdXR1YmUiLCJyb2xlIjoiVVNFUiJ9.gmyBpeO0rUhFRbOgyjqksrsHvK8PY1qYueSMgh79CJw
+
+{
+  "title": "Spring full course is one video!",
+  "description": "This video best of the best in the world!",
+  "status": "ACTIVE",
+  "videoAttachId": "9773f265-d189-49f1-a31b-f32fcb19b676",
+  "categoryId": "2",
+  "previewAttachId": "428889c0-58f2-4f48-84d6-a9abcdf99d18",
+  "channelId": "4"
+}

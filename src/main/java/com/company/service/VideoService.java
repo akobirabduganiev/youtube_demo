@@ -1,7 +1,6 @@
 package com.company.service;
 
 import com.company.dto.*;
-import com.company.entity.LikeEntity;
 import com.company.entity.VideoEntity;
 import com.company.enums.VideoStatus;
 import com.company.exceptions.AppBadRequestException;
@@ -16,6 +15,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -38,6 +38,7 @@ public class VideoService {
         attachService.get(dto.getVideoAttachId());
 
         if (!channel.getProfileId().equals(pId)) throw new AppBadRequestException("Not authorized!");
+
         if (!dto.getStatus().equals(VideoStatus.NOT_PUBLISHED))
             entity.setPublishedDate(LocalDateTime.now());
 
@@ -55,13 +56,23 @@ public class VideoService {
 
         return dto;
     }
-    public String increaseViewCount(String key){
+
+    public List<ListVideoDetailDTO> paginationList(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdDate"));
+
+        List<ListVideoDetailDTO> list = new ArrayList<>();
+        videoRepository.findAll(pageable).stream().forEach(entity -> list.add(videoList(entity)));
+
+        return list;
+    }
+
+    public String increaseViewCount(String key) {
         videoRepository.increaseViewCount(key);
         return "view count increased";
     }
 
     public String updateDetail(ChangeVideoDetailDTO dto, Integer pId) {
-        var entity = videoRepository.getByKey(dto.getKey()).orElseThrow(() -> new ItemNotFoundException("Video not found!"));
+        var entity = videoRepository.findByKey(dto.getKey()).orElseThrow(() -> new ItemNotFoundException("Video not found!"));
         var channel = channelService.get(dto.getChannelKey());
         if (!channel.getProfileId().equals(pId)) throw new AppBadRequestException("Not authorized!");
         if (!entity.getChannelId().equals(channel.getId())) throw new AppBadRequestException("Not access!");
@@ -72,9 +83,9 @@ public class VideoService {
     }
 
     public String changeVideoStatus(ChangeVideoStatusDTO dto, Integer pId) {
-        var entity = videoRepository.getByKey(dto.getKey()).orElseThrow(() -> new ItemNotFoundException("Video not found!"));
+        var entity = videoRepository.findByKey(dto.getKey()).orElseThrow(() -> new ItemNotFoundException("Video not found!"));
         var channel = channelService.get(dto.getChannelKey());
-        if (!channel.getProfileId().equals(pId)) throw new AppBadRequestException("Not authorized!");
+        if (!channel.getProfileId().equals(pId)) throw new AppBadRequestException("Not access!");
         if (!entity.getChannelId().equals(channel.getId())) throw new AppBadRequestException("Not access!");
 
         videoRepository.changeVideoStatus(dto.getStatus(), dto.getKey());
@@ -90,11 +101,36 @@ public class VideoService {
 
         List<VideoDetailDTO> list = new LinkedList<>();
         for (VideoEntity entity : pageList.getContent())
-            list.add(toVideoDetailDTO(entity));
+            list.add(shortVideoDetail(entity));
         return new PageImpl<>(list, pageable, pageList.getTotalElements());
     }
 
-    private VideoDetailDTO toVideoDetailDTO(VideoEntity entity) {
+    public PageImpl<VideoDetailDTO> listByTitle(String title, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size,
+                Sort.by(Sort.Direction.DESC, "createdDate"));
+
+        var pageList = videoRepository.findAllByTitle(title, pageable);
+
+        List<VideoDetailDTO> list = new LinkedList<>();
+        for (VideoEntity entity : pageList.getContent())
+            list.add(shortVideoDetail(entity));
+        return new PageImpl<>(list, pageable, pageList.getTotalElements());
+    }
+
+    public VideoDetailDTO getVideoByKey(String key, Integer pId) {
+        var entity = videoRepository.findByKey(key).orElseThrow(() -> new ItemNotFoundException("Video not found!"));
+        VideoDetailDTO dto = null;
+        List<ChannelDTO> list = channelService.channelList(pId);
+
+        if (!entity.getStatus().equals(VideoStatus.PRIVATE)) dto = fullVideoDetail(entity);
+        for (ChannelDTO channel : list)
+            if (channel.getProfileId().equals(pId)) dto = fullVideoDetail(entity);
+
+        return dto;
+    }
+
+
+    private VideoDetailDTO shortVideoDetail(VideoEntity entity) {
         var dto = new VideoDetailDTO();
         dto.setKey(entity.getKey());
         var channel = new ChannelDTO();
@@ -107,6 +143,37 @@ public class VideoService {
         dto.setDescription(entity.getDescription());
         dto.setPublishedDate(entity.getPublishedDate());
         dto.setVideoAttach(attachService.toOpenURL(entity.getVideoAttachId()));
+
+        return dto;
+    }
+
+    private VideoDetailDTO fullVideoDetail(VideoEntity entity) {
+        var dto = new VideoDetailDTO();
+        dto.setKey(entity.getKey());
+        var channel = new ChannelDTO();
+        channel.setName(entity.getChannel().getName());
+        channel.setKey(entity.getChannel().getKey());
+        channel.setChannelPhotoId(attachService.toOpenURL(entity.getChannel().getChannelPhotoId()));
+        dto.setChannel(channel);
+        dto.setPreviewAttach(attachService.toOpenURL(entity.getPreviewAttachId()));
+        dto.setTitle(entity.getTitle());
+        dto.setDescription(entity.getDescription());
+        dto.setPublishedDate(entity.getPublishedDate());
+        dto.setVideoAttach(attachService.toOpenURL(entity.getVideoAttachId()));
+        dto.setViewCount(entity.getViewCount());
+        dto.setStatus(entity.getStatus());
+
+        return dto;
+    }
+
+    private ListVideoDetailDTO videoList(VideoEntity entity) {
+        var dto = new ListVideoDetailDTO();
+        dto.setVideo(shortVideoDetail(entity));
+        var channel = new ChannelDTO();
+        channel.setName(entity.getChannel().getName());
+        channel.setKey(entity.getChannel().getKey());
+        channel.setChannelPhotoId(attachService.toOpenURL(entity.getChannel().getChannelPhotoId()));
+        dto.setChannel(channel);
 
         return dto;
     }
