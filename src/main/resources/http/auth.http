@@ -20,7 +20,7 @@ POST http://localhost:8080/auth/login
 Content-Type: application/json
 
 {
-  "email": "ali@yandex.com",
+  "email": "akobir.abduganiev@yandex.com",
   "password": "Alibek"
 }
 

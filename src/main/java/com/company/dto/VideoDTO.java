@@ -1,10 +1,8 @@
 package com.company.dto;
 
 import com.company.enums.VideoStatus;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.*;
 
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
@@ -13,6 +11,8 @@ import java.time.LocalDateTime;
 @Getter
 @ToString
 @Setter
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@NoArgsConstructor
 public class VideoDTO {
     private Integer id;
     private LocalDateTime createdDate;
@@ -35,4 +35,19 @@ public class VideoDTO {
     private String videoAttachId;
     @NotNull(message = "CategoryId required!")
     private Integer categoryId;
+    private String url;
+    private Long duration;
+
+    public VideoDTO(String url) {
+        this.url = url;
+    }
+
+    public VideoDTO(Integer id, String title, String description, AttachDTO video, Long duration) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.videoAttachId = video.getUrl();
+        this.duration = duration;
+    }
+
 }

@@ -1,0 +1,44 @@
+###
+POST http://localhost:8080/playlist/profile/create
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI4IiwiaWF0IjoxNjUyOTQwMzU2LCJleHAiOjE2NTI5NDM5NTYsImlzcyI6InlvdXR1YmUiLCJyb2xlIjoiVVNFUiJ9.etp34tTYcrREuAvGhZdhK98xc_smZQNx8mbfKLhY7GU
+
+{
+  "name": "Programming",
+  "description": "I don't know",
+  "channelId": "4",
+  "status": "PUBLIC",
+  "orderNumber": "2"
+}
+###
+PUT http://localhost:8080/playlist/profile/update
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI4IiwiaWF0IjoxNjUyOTAwMDg1LCJleHAiOjE2NTI5MDM2ODUsImlzcyI6InlvdXR1YmUiLCJyb2xlIjoiVVNFUiJ9.YU2dNejN8nI5L-vbWZlvO4wVTS_QdwHEDGG_mSSRNCQ
+
+{
+  "title": "Programming",
+  "description": "I don't know",
+  "channelId": "4",
+  "playlistId": "1"
+}
+
+###
+PUT http://localhost:8080/playlist/profile/change-status
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI4IiwiaWF0IjoxNjUyOTQwMzU2LCJleHAiOjE2NTI5NDM5NTYsImlzcyI6InlvdXR1YmUiLCJyb2xlIjoiVVNFUiJ9.etp34tTYcrREuAvGhZdhK98xc_smZQNx8mbfKLhY7GU
+
+{
+  "status": "PUBLIC",
+  "channelId": "4",
+  "playlistId": "1"
+}
+
+###
+DELETE http://localhost:8080/playlist/profile/delete/1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI4IiwiaWF0IjoxNjUyOTQwMzU2LCJleHAiOjE2NTI5NDM5NTYsImlzcyI6InlvdXR1YmUiLCJyb2xlIjoiVVNFUiJ9.etp34tTYcrREuAvGhZdhK98xc_smZQNx8mbfKLhY7GU
+
+###
+GET http://localhost:8080/playlist/adm/list
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMCIsImlhdCI6MTY1Mjk4MjIwNSwiZXhwIjoxNjUyOTg1ODA1LCJpc3MiOiJ5b3V0dWJlIiwicm9sZSI6IkFETUlOIn0.TGYDFCM26jeDJ_CZzaBH5sBA3ctgj-s1_ApLIYLcGrw

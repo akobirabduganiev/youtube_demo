@@ -1,13 +1,61 @@
-POST http://localhost:8080/video/create
+POST http://localhost:8080/video/profile/create
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI4IiwiaWF0IjoxNjUyODQ5OTA1LCJleHAiOjE2NTI4NTM1MDUsImlzcyI6InlvdXR1YmUiLCJyb2xlIjoiVVNFUiJ9.gmyBpeO0rUhFRbOgyjqksrsHvK8PY1qYueSMgh79CJw
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI4IiwiaWF0IjoxNjUyODk0ODMxLCJleHAiOjE2NTI4OTg0MzEsImlzcyI6InlvdXR1YmUiLCJyb2xlIjoiVVNFUiJ9.pX2ERngHY-YISDm2GqxVsueP4vLJZIl4OPM0Ntz9y6M
 
 {
   "title": "Spring full course is one video!",
   "description": "This video best of the best in the world!",
-  "status": "ACTIVE",
+  "status": "PUBLIC",
   "videoAttachId": "9773f265-d189-49f1-a31b-f32fcb19b676",
   "categoryId": "2",
   "previewAttachId": "428889c0-58f2-4f48-84d6-a9abcdf99d18",
   "channelId": "4"
 }
+
+###
+GET http://localhost:8080/video/list?page=0&size=5
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMCIsImlhdCI6MTY1Mjg5MDc3OCwiZXhwIjoxNjUyODk0Mzc4LCJpc3MiOiJ5b3V0dWJlIiwicm9sZSI6IkFETUlOIn0.SefURWE6Leyhh8DOw-JeIpGXQsOtBt8-gf965sIWm_A
+
+###
+PUT http://localhost:8080/video/update-detail
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI4IiwiaWF0IjoxNjUyODkxOTA2LCJleHAiOjE2NTI4OTU1MDYsImlzcyI6InlvdXR1YmUiLCJyb2xlIjoiVVNFUiJ9.TvPEypg40TmVhkXjSY9SNrpZxaJHhDjNj7KP0ofJ4DY
+
+{
+  "key": "9f76206c-ef5c-4ecc-9f37-b7d382ae179b",
+  "title": "Video course",
+  "description": "Nice video course",
+  "channelKey": "40b22930-df80-4dac-9ffc-d5984e3f1a93"
+}
+
+###
+PUT http://localhost:8080/video/update-status
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI4IiwiaWF0IjoxNjUyODkxOTA2LCJleHAiOjE2NTI4OTU1MDYsImlzcyI6InlvdXR1YmUiLCJyb2xlIjoiVVNFUiJ9.TvPEypg40TmVhkXjSY9SNrpZxaJHhDjNj7KP0ofJ4DY
+
+{
+  "key": "9f76206c-ef5c-4ecc-9f37-b7d382ae179b",
+  "channelKey": "40b22930-df80-4dac-9ffc-d5984e3f1a93",
+  "status": "PRIVATE"
+}
+
+###
+GET http://localhost:8080/video/list-by-category/2
+
+###
+POST http://localhost:8080/video/search-by-title?page=0&size=5
+Content-Type: application/json
+
+{
+  "title": "Video course"
+}
+
+
+###
+POST http://localhost:8080/video/profile/get-video/1228e24c-5a6b-4d4d-af5b-f5dcf322d1d8
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI4IiwiaWF0IjoxNjUyODk0ODMxLCJleHAiOjE2NTI4OTg0MzEsImlzcyI6InlvdXR1YmUiLCJyb2xlIjoiVVNFUiJ9.pX2ERngHY-YISDm2GqxVsueP4vLJZIl4OPM0Ntz9y6M
+
+###
+PUT http://localhost:8080/video/increase-view-count/1228e24c-5a6b-4d4d-af5b-f5dcf322d1d8

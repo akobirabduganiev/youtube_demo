@@ -5,6 +5,6 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class ListVideoDetailDTO {
-    VideoDetailDTO video;
+public class VideoTitleDTO {
+    private String title;
 }

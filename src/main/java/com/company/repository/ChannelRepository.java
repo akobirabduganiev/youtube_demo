@@ -40,4 +40,6 @@ public interface ChannelRepository extends JpaRepository<ChannelEntity, Integer>
     void updateChannelStatus(@Param("status") ChannelStatus status, @Param("key") String key);
 
     List<ChannelEntity> findByProfileId(Integer id);
+
+    Optional<ChannelEntity> findByProfileIdAndId(Integer pId, Integer channelId);
 }

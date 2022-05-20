@@ -11,6 +11,7 @@ import com.company.exceptions.AppBadRequestException;
 import com.company.exceptions.ItemNotFoundException;
 import com.company.repository.ChannelRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -23,11 +24,15 @@ import java.util.List;
 @Service
 public class ChannelService {
     @Autowired
-    ChannelRepository channelRepository;
+    private ChannelRepository channelRepository;
     @Autowired
-    ProfileService profileService;
+    private ProfileService profileService;
     @Autowired
-    AttachService attachService;
+    private AttachService attachService;
+
+    @Value("${server.domain.name}")
+    private String domainName;
+
 
     public ChannelDTO create(ChannelDTO dto, Integer pId) {
         ProfileEntity profile = profileService.get(pId);
@@ -146,5 +151,12 @@ public class ChannelService {
 
     public ChannelEntity get(Integer id) {
         return channelRepository.findById(id).orElseThrow(() -> new ItemNotFoundException("Not Found!"));
+    }
+
+    public ChannelEntity findByProfileId(Integer channelId, Integer pId) {
+        return channelRepository.findByProfileIdAndId(pId, channelId).orElseThrow(() -> new AppBadRequestException("this channel is not for you"));
+    }
+    public String toOpenUrl(String id) {
+        return domainName + "channel/" + id;
     }
 }

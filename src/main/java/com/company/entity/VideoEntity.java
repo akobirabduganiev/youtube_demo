@@ -31,9 +31,11 @@ public class VideoEntity extends BaseEntity {
     @Column(columnDefinition = "text")
     private String description;
     @Column
-    private Integer viewCount;
+    private Integer viewCount = 0;
     @Column
-    private Integer sharedCount;
+    private Integer sharedCount = 0;
+    @Column
+    private Long duration;
 
     @Column(name = "channel_id")
     private Integer channelId;
