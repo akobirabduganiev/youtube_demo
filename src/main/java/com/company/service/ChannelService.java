@@ -99,6 +99,7 @@ public class ChannelService {
     }
 
     public boolean updateStatus(ChangeChannelStatusDTO dto, Integer pId) {
+
         channelRepository.findByProfileIdAndKey(pId, dto.getKey())
                 .orElseThrow(() -> new AppBadRequestException("Not Found!"));
 

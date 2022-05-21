@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/video")
+@RequestMapping("video/")
 public class VideoController {
     @Autowired
     private VideoService videoService;

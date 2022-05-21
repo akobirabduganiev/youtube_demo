@@ -29,6 +29,10 @@ public class SecuredFilterConfig {
         bean.addUrlPatterns("/video/adm/*");
         bean.addUrlPatterns("/playlist/profile/*");
         bean.addUrlPatterns("/playlist/adm/*");
+        bean.addUrlPatterns("/playlist-video/profile/*");
+        bean.addUrlPatterns("/playlist-video/adm/*");
+        bean.addUrlPatterns("/video-tag/profile/*");
+        bean.addUrlPatterns("/video-tag/adm/*");
         return bean;
     }
 

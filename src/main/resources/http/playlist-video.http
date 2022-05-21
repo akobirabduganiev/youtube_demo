@@ -1,0 +1,22 @@
+###
+POST http://localhost:8080/playlist-video/profile/create
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI4IiwiaWF0IjoxNjUzMDU1OTE1LCJleHAiOjE2NTMwNTk1MTUsImlzcyI6InlvdXR1YmUiLCJyb2xlIjoiVVNFUiJ9.23UUuQ-tF_fqMZSPAz6vv_rz4iTIhmtF9qFoSNJWBJo
+
+{
+  "playlistId": "3",
+  "videoId": "1",
+  "orderNum": "1"
+}
+
+###
+PUT http://localhost:8080/playlist-video/profile/3
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI4IiwiaWF0IjoxNjUzMDQ5OTM3LCJleHAiOjE2NTMwNTM1MzcsImlzcyI6InlvdXR1YmUiLCJyb2xlIjoiVVNFUiJ9.ENR9gHy3dkGB9Cjms6We8Ih1VJneTQIP3-SjfbUq1mg
+
+{
+  "orderNum": "1"
+}
+
+###
+GET http://localhost:8080/playlist-video/list/3

@@ -11,6 +11,7 @@ import com.company.repository.PlaylistRepository;
 import com.company.repository.PlaylistVideoRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -26,15 +27,13 @@ public class PlaylistVideoService {
     private final PlaylistVideoRepository playlistVideoRepository;
     private final PlaylistRepository playlistRepository;
     private final VideoService videoService;
-    private final ChannelService channelService;
 
-
-    public PlaylistVideoDTO create(PlaylistVideoDTO dto, String profileId) {
+    public PlaylistVideoDTO create(PlaylistVideoDTO dto, Integer profileId) {
         VideoEntity videoEntity = videoService.getById(dto.getVideoId());
 
         PlaylistEntity playlistEntity = getPlaylistById(dto.getPlaylistId());
 
-        if (!playlistEntity.getChannel().getProfileId().toString().equals(profileId)) {
+        if (!playlistEntity.getChannel().getProfileId().equals(profileId)) {
             log.warn("Not access {}", profileId);
             throw new AppForbiddenException("Not access!");
         }
@@ -44,7 +43,12 @@ public class PlaylistVideoService {
         entity.setVideoId(videoEntity.getId());
         entity.setOrderNum(dto.getOrderNum());
 
-        playlistVideoRepository.save(entity);
+        try {
+            playlistVideoRepository.save(entity);
+        } catch (DataIntegrityViolationException e) {
+            log.warn("Unique {}", profileId);
+            throw new AppBadRequestException("Unique !");
+        }
 
         entity.setVideo(videoEntity);
         entity.setPlaylist(playlistEntity);
@@ -67,20 +71,21 @@ public class PlaylistVideoService {
         return toDTO(entity);
     }
 
-    public Boolean delete(PlaylistVideoIdDTO dto, String profileId) {
-        VideoEntity videoEntity = videoService.getById(dto.getVideoId());
+    public String delete(PlaylistVideoIdDTO dto, String profileId) {
+        videoService.getById(dto.getVideoId());
 
-        PlaylistEntity playlistEntity = getPlaylistById(dto.getPlaylistId());
+        var playlistEntity = getPlaylistById(dto.getPlaylistId());
 
         if (!playlistEntity.getChannel().getProfileId().toString().equals(profileId)) {
             log.warn("Not access {}", profileId);
             throw new AppForbiddenException("Not access!");
         }
 
-        PlaylistVideoEntity entity = getByPlaylistIdAndVideoId(dto.getPlaylistId(), dto.getVideoId());
+        var entity = getByPlaylistIdAndVideoId(dto.getPlaylistId(), dto.getVideoId());
 
         playlistVideoRepository.delete(entity);
-        return true;
+
+        return "deleted successfully";
     }
 
     public List<PlaylistVideoDTO> videosByPlaylistId(Integer playlistId) {
@@ -89,11 +94,9 @@ public class PlaylistVideoService {
         List<PlaylistVideoDTO> dtoList = new ArrayList<>();
 
         List<PlaylistVideoEntity> entityList = playlistVideoRepository.findAllByPlaylistId(playlistEntity.getId(),
-                Sort.by(Sort.Direction.ASC, "orderNum"));
+                Sort.by(Sort.Direction.DESC, "orderNum"));
 
-        entityList.forEach(entity -> {
-            dtoList.add(toDTO(entity));
-        });
+        entityList.forEach(entity -> dtoList.add(toDTO(entity)));
         return dtoList;
     }
 
@@ -129,18 +132,23 @@ public class PlaylistVideoService {
     }
 
     public PlaylistVideoDTO toDTO(PlaylistVideoEntity entity) {
-        PlaylistVideoDTO dto = new PlaylistVideoDTO();
+        var dto = new PlaylistVideoDTO();
+
         dto.setId(entity.getId());
         dto.setPlaylistId(entity.getPlaylistId());
 
-        VideoEntity videoEntity = entity.getVideo();
+        var videoEntity = entity.getVideo();
         dto.setVideo(new VideoDTO(videoEntity.getId(),
                 videoEntity.getTitle(),
                 videoEntity.getDescription(),
-                new AttachDTO(videoService.toOpenUrl(entity.getVideoId().toString())),
+                new AttachDTO(entity.getVideo().getKey()),
                 videoEntity.getDuration()));
 
-        dto.setChannel(new ChannelDTO(channelService.toOpenUrl(entity.getVideo().getChannelId().toString())));
+        ChannelDTO channel = new ChannelDTO();
+        channel.setKey(entity.getVideo().getChannel().getKey());
+
+        dto.setChannel(channel);
+
 
         dto.setOrderNum(entity.getOrderNum());
         dto.setCreatedDate(entity.getCreatedDate());

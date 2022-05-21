@@ -182,7 +182,4 @@ public class VideoService {
     public VideoEntity getById(Integer videoId) {
         return videoRepository.findById(videoId).orElseThrow(() -> new ItemNotFoundException("Item not found"));
     }
-    public String toOpenUrl(String id) {
-        return domainName + "video/public/" + id;
-    }
 }
